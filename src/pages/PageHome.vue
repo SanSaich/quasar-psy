@@ -145,8 +145,8 @@ export default defineComponent({
         });
         const postsList = ref([]);
 
-        const createPost = async () => {
-            await store.addPost(newPost);
+        const createPost = () => {
+            store.addPost(newPost);
             newPost.title = "";
             newPost.text = "";
         };

@@ -68,7 +68,9 @@ export const usePostsStore = defineStore('posts', {
                     post.id = change.doc.id;
 
                     if (change.type === 'added') {
-                        // console.log('New post: ', post);
+                        console.log('New post: ', post);
+                        console.log('change: ', change);
+                        console.log('snapshot', snapshot);
                         this.postsList.unshift(post);
                     }
                     if (change.type === 'modified') {
