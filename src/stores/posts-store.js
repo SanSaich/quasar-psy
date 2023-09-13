@@ -68,18 +68,18 @@ export const usePostsStore = defineStore('posts', {
                     post.id = change.doc.id;
 
                     if (change.type === 'added') {
-                        console.log('New post: ', post);
+                        // console.log('New post: ', post);
                         this.postsList.unshift(post);
                     }
                     if (change.type === 'modified') {
-                        console.log('Modified post: ', post);
+                        // console.log('Modified post: ', post);
                         let index = this.postsList.findIndex(
                             (item) => item.id === post.id
                         );
                         Object.assign(this.postsList[index], post);
                     }
                     if (change.type === 'removed') {
-                        console.log('Removed post: ', post);
+                        // console.log('Removed post: ', post);
                         let index = this.postsList.findIndex(
                             (item) => item.id === post.id
                         );

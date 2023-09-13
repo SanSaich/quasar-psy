@@ -69,6 +69,14 @@
                     </q-item-section>
                 </q-item>
             </q-list>
+
+            <q-btn
+                v-if="deferredPrompt"
+                color="primary"
+                icon="check"
+                label="Install App"
+                @click="install"
+            />
         </q-drawer>
 
         <q-drawer
@@ -137,7 +145,8 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { onMounted, ref, reactive } from "vue";
+import { useQuasar } from "quasar";
 import HeaderCmp from "../components/base/HeaderCmp.vue";
 import FooterCmp from "../components/base/FooterCmp.vue";
 
@@ -147,18 +156,56 @@ export default {
         FooterCmp,
     },
     setup() {
-        const leftDrawerOpen = ref(false); //если мобилка - false
+        const leftDrawerOpen = ref(false);
         const rightDrawerOpen = ref(false);
-
-        const searchResult = ref(["one", "two", "three"]);
-
         function toggleLeftDrawer() {
             leftDrawerOpen.value = !leftDrawerOpen.value;
         }
-
         function toggleRightDrawer() {
             rightDrawerOpen.value = !rightDrawerOpen.value;
         }
+
+        const searchResult = ref(["one", "two", "three"]);
+
+        // const $q = useQuasar();
+        // const platform = $q.platform;
+
+        let deferredPrompt = ref();
+        // метод для установки pwa
+        const install = async () => {
+            console.log("Installing");
+            // Hide the app provided install promotion
+            // hideInstallPromotion();
+            // Show the install prompt
+            deferredPrompt.value.prompt();
+            // Wait for the user to respond to the prompt
+            const { outcome } = await deferredPrompt.value.userChoice;
+            // Optionally, send analytics event with outcome of user choice
+            console.log(`User response to the install prompt: ${outcome}`);
+            // We've used the prompt, and can't use it again, throw it away
+            deferredPrompt.value = null;
+        };
+        onMounted(() => {
+            window.addEventListener("beforeinstallprompt", (e) => {
+                // Prevent the mini-infobar from appearing on mobile
+                e.preventDefault();
+                // Stash the event so it can be triggered later.
+                deferredPrompt.value = e;
+                // Update UI notify the user they can install the PWA
+                // showInstallPromotion();
+                // Optionally, send analytics event that PWA install promo was shown.
+                console.log("PWA not installed");
+            });
+            // PWA было успешно установлено
+            window.addEventListener("appinstalled", () => {
+                // Hide the app-provided install promotion
+                // hideInstallPromotion();
+                // Clear the deferredPrompt so it can be garbage collected
+                deferredPrompt.value = null;
+                // Optionally, send analytics event to indicate successful install
+                console.log("PWA was installed");
+            });
+        });
 
         return {
             leftDrawerOpen,
@@ -168,6 +215,8 @@ export default {
             toggleRightDrawer,
 
             searchResult,
+            deferredPrompt,
+            install,
         };
     },
 };
