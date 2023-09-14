@@ -69,8 +69,8 @@
                             <q-item-section avatar top>
                                 <q-avatar>
                                     <img
-                                        v-if="item.fileUrl"
-                                        :src="item.fileUrl"
+                                        v-if="item.file && item.file.url"
+                                        :src="item.file.url"
                                     />
                                     <img
                                         v-else
@@ -120,7 +120,7 @@
                                     </div>
                                     <div class="flex justify-end">
                                         <q-btn
-                                            @click="removePost(item.id)"
+                                            @click="removePost(item)"
                                             color="grey"
                                             icon="fas fa-trash"
                                             size="xs"
@@ -155,23 +155,29 @@ export default defineComponent({
         const newPost = reactive({
             title: "",
             text: "",
-            fileUrl: "",
+            file: { name: "", url: "" },
             like: false,
         });
         const postsList = ref([]);
 
         const createPost = async () => {
             if (newFile.value) {
-                newPost.fileUrl = await store.sendFile(newFile.value);
+                newPost.file.url = await store.sendFile(newFile.value);
+                newPost.file.name = newFile.value.name;
+                newFile.value = null;
             }
             store.addPost(newPost);
             newPost.title = "";
             newPost.text = "";
-            newPost.fileUrl = "";
+            newPost.file.url = "";
+            newPost.file.name = "";
         };
 
-        const removePost = async (id) => {
-            await store.deletePost(id);
+        const removePost = async (item) => {
+            await store.deletePost(item.id);
+            if (item.file && item.file.name) {
+                await store.deleteFile(item.file.name);
+            }
         };
 
         const toggleLike = async (post) => {

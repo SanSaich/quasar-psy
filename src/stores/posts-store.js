@@ -12,7 +12,13 @@ import {
     orderBy,
     limit,
 } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import {
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL,
+    deleteObject,
+} from 'firebase/storage';
 
 export const usePostsStore = defineStore('posts', {
     state: () => ({
@@ -31,6 +37,18 @@ export const usePostsStore = defineStore('posts', {
                 return url;
             } catch (error) {
                 console.error('Error adding post: ', error);
+            }
+        },
+
+        async deleteFile(name) {
+            const storage = getStorage();
+            const storageRef = ref(storage, name);
+
+            try {
+                await deleteObject(storageRef);
+                console.log('file deleted successfully');
+            } catch (error) {
+                console.log('Error deleting file: ', error);
             }
         },
 
