@@ -174,8 +174,6 @@ export default {
         // метод для установки pwa
         const install = async () => {
             console.log("Installing");
-            // Hide the app provided install promotion
-            // hideInstallPromotion();
             // Show the install prompt
             deferredPrompt.value.prompt();
             // Wait for the user to respond to the prompt
@@ -191,15 +189,11 @@ export default {
                 e.preventDefault();
                 // Stash the event so it can be triggered later.
                 deferredPrompt.value = e;
-                // Update UI notify the user they can install the PWA
-                // showInstallPromotion();
                 // Optionally, send analytics event that PWA install promo was shown.
                 console.log("PWA not installed");
             });
             // PWA было успешно установлено
             window.addEventListener("appinstalled", () => {
-                // Hide the app-provided install promotion
-                // hideInstallPromotion();
                 // Clear the deferredPrompt so it can be garbage collected
                 deferredPrompt.value = null;
                 // Optionally, send analytics event to indicate successful install

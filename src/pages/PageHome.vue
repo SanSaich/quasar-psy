@@ -29,6 +29,12 @@
                     </template>
                 </q-input>
 
+                <q-file outlined v-model="newFile" class="q-mb-md">
+                    <template v-slot:prepend>
+                        <q-icon name="attach_file" />
+                    </template>
+                </q-file>
+
                 <q-input
                     v-model="newPost.text"
                     dense
@@ -62,7 +68,14 @@
                         <div class="row">
                             <q-item-section avatar top>
                                 <q-avatar>
-                                    <img src="../assets/nMTlqnUMaMc.jpg" />
+                                    <img
+                                        v-if="item.fileUrl"
+                                        :src="item.fileUrl"
+                                    />
+                                    <img
+                                        v-else
+                                        src="../assets/nMTlqnUMaMc.jpg"
+                                    />
                                 </q-avatar>
                             </q-item-section>
                             <q-item-section>
@@ -138,17 +151,23 @@ export default defineComponent({
     name: "PageHome",
     setup() {
         const store = usePostsStore();
+        const newFile = ref(null);
         const newPost = reactive({
             title: "",
             text: "",
+            fileUrl: "",
             like: false,
         });
         const postsList = ref([]);
 
-        const createPost = () => {
+        const createPost = async () => {
+            if (newFile.value) {
+                newPost.fileUrl = await store.sendFile(newFile.value);
+            }
             store.addPost(newPost);
             newPost.title = "";
             newPost.text = "";
+            newPost.fileUrl = "";
         };
 
         const removePost = async (id) => {
@@ -174,6 +193,7 @@ export default defineComponent({
 
         return {
             newPost,
+            newFile,
             postsList,
             createPost,
             removePost,

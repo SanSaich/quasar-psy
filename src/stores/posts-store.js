@@ -12,6 +12,7 @@ import {
     orderBy,
     limit,
 } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 export const usePostsStore = defineStore('posts', {
     state: () => ({
@@ -21,6 +22,18 @@ export const usePostsStore = defineStore('posts', {
         // doubleCount: (state) => state.counter * 2,
     },
     actions: {
+        async sendFile(file) {
+            const storage = getStorage();
+            const storageRef = ref(storage, file.name);
+            try {
+                await uploadBytes(storageRef, file);
+                const url = await getDownloadURL(storageRef);
+                return url;
+            } catch (error) {
+                console.error('Error adding post: ', error);
+            }
+        },
+
         async addPost(post) {
             //prop это {title:'', text:''} TS
             post.date = Date.now();
@@ -68,9 +81,7 @@ export const usePostsStore = defineStore('posts', {
                     post.id = change.doc.id;
 
                     if (change.type === 'added') {
-                        console.log('New post: ', post);
-                        console.log('change: ', change);
-                        console.log('snapshot', snapshot);
+                        // console.log('New post: ', post);
                         this.postsList.unshift(post);
                     }
                     if (change.type === 'modified') {
