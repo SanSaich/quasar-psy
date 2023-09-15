@@ -13,8 +13,8 @@
                     filled
                     dense
                 >
-                    <template v-slot:after>
-                        <q-avatar size="md" class="q-ml-sm">
+                    <template v-slot:before>
+                        <q-avatar size="md" class="q-mr-sm">
                             <img src="../assets/nMTlqnUMaMc.jpg" />
                         </q-avatar>
                     </template>
@@ -29,15 +29,10 @@
                     </template>
                 </q-input>
 
-                <q-file outlined v-model="newFile" class="q-mb-md">
-                    <template v-slot:prepend>
-                        <q-icon name="attach_file" />
-                    </template>
-                </q-file>
-
                 <q-input
                     v-model="newPost.text"
                     dense
+                    filled
                     autogrow
                     placeholder="Введите текст"
                     counter
@@ -54,90 +49,25 @@
                         />
                     </template>
                 </q-input>
+
+                <q-file v-model="newFile" dense filled use-chips>
+                    <template v-slot:prepend>
+                        <q-icon name="attach_file" />
+                    </template>
+                </q-file>
             </div>
 
             <q-list class="posts-list">
-                <transition-group>
-                    <!-- добавить неявную пагинацию -->
-                    <!-- q-item clickable -->
-                    <q-item
-                        v-for="item in postsList"
-                        :key="item.id"
-                        class="q-px-none column posts-list__post"
-                    >
-                        <div class="row">
-                            <q-item-section avatar top>
-                                <q-avatar>
-                                    <img
-                                        v-if="item.file && item.file.url"
-                                        :src="item.file.url"
-                                    />
-                                    <img
-                                        v-else
-                                        src="../assets/nMTlqnUMaMc.jpg"
-                                    />
-                                </q-avatar>
-                            </q-item-section>
-                            <q-item-section>
-                                <q-item-label class="text-subtitle" lines="1">
-                                    {{ item.title }}
-                                </q-item-label>
-                                <q-item-label caption>
-                                    {{ item.text }}
-                                </q-item-label>
-                                <div class="justify-between row q-my-sm">
-                                    <div class="flex justify-end">
-                                        <q-btn
-                                            :color="item.like ? 'pink' : 'grey'"
-                                            :icon="
-                                                item.like
-                                                    ? 'fas fa-heart'
-                                                    : 'far fa-heart'
-                                            "
-                                            @click="toggleLike(item)"
-                                            size="xs"
-                                            round
-                                            flat
-                                        />
-                                    </div>
-                                    <div class="flex justify-end">
-                                        <q-btn
-                                            color="grey"
-                                            icon="far fa-comment"
-                                            size="xs"
-                                            round
-                                            flat
-                                        />
-                                    </div>
-                                    <div class="flex justify-end">
-                                        <q-btn
-                                            color="grey"
-                                            icon="fas fa-retweet"
-                                            size="xs"
-                                            round
-                                            flat
-                                        />
-                                    </div>
-                                    <div class="flex justify-end">
-                                        <q-btn
-                                            @click="removePost(item)"
-                                            color="grey"
-                                            icon="fas fa-trash"
-                                            size="xs"
-                                            round
-                                            flat
-                                        />
-                                    </div>
-                                </div>
-                            </q-item-section>
-                            <q-item-section class="absolute-top-right" side top>
-                                1 min ago
-                            </q-item-section>
-                        </div>
-
-                        <q-separator />
-                    </q-item>
-                </transition-group>
+                <!-- <transition-group> -->
+                <!-- добавить неявную пагинацию -->
+                <case-big
+                    v-for="item in postsList"
+                    :key="item.id"
+                    :item="item"
+                    @toggleLike="toggleLike(item)"
+                    @removePost="removePost(item)"
+                ></case-big>
+                <!-- </transition-group> -->
             </q-list>
         </q-scroll-area>
     </q-page>
@@ -147,8 +77,13 @@
 import { defineComponent, ref, reactive, onMounted, watch } from "vue";
 import { usePostsStore } from "src/stores/posts-store";
 
+import CaseBig from "../components/cases/CaseBig.vue";
+
 export default defineComponent({
     name: "PageHome",
+    components: {
+        CaseBig,
+    },
     setup() {
         const store = usePostsStore();
         const newFile = ref(null);

@@ -222,7 +222,7 @@ export default {
 
     &__image
         width: 100%
-        max-height: 200px
+        max-height: 28cqw
         overflow: hidden
         border-radius: 8px
 
@@ -235,9 +235,12 @@ export default {
         position: absolute
         top: 8px
         right: 8px
-        padding: 6px
+        // padding: 6px
         background: white
         border-radius: 50%
+
+    &__block-text
+        flex: none
 
     .q-item__section
         margin-left: 0
