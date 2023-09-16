@@ -76,6 +76,7 @@
 <script>
 import { defineComponent, ref, reactive, onMounted, watch } from "vue";
 import { usePostsStore } from "src/stores/posts-store";
+import { useFilesStore } from "src/stores/files-store";
 
 import CaseBig from "../components/cases/CaseBig.vue";
 
@@ -86,6 +87,8 @@ export default defineComponent({
     },
     setup() {
         const store = usePostsStore();
+        const filesStore = useFilesStore();
+
         const newFile = ref(null);
         const newPost = reactive({
             title: "",
@@ -95,12 +98,16 @@ export default defineComponent({
         });
         const postsList = ref([]);
 
-        const createPost = async () => {
+        const addFile = async () => {
             if (newFile.value) {
-                newPost.file.url = await store.sendFile(newFile.value);
+                newPost.file.url = await filesStore.sendFile(newFile.value);
                 newPost.file.name = newFile.value.name;
                 newFile.value = null;
             }
+        };
+
+        const createPost = async () => {
+            await addFile();
             store.addPost(newPost);
             newPost.title = "";
             newPost.text = "";
@@ -111,7 +118,7 @@ export default defineComponent({
         const removePost = async (item) => {
             await store.deletePost(item.id);
             if (item.file && item.file.name) {
-                await store.deleteFile(item.file.name);
+                await filesStore.deleteFile(item.file.name);
             }
         };
 
