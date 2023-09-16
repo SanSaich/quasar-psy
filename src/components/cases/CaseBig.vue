@@ -2,12 +2,14 @@
     <!-- q-item clickable -->
     <q-item class="column q-pa-none q-mb-md case-card">
         <q-item-section class="case-card__image">
+            <!-- <q-responsive :ratio="16 / 9"> -->
             <q-img
                 v-if="item.file && item.file.url"
                 :src="item.file.url"
-                spinner-color="white"
+                spinner-color="primary"
             />
             <img v-else src="https://cdn.quasar.dev/img/mountains.jpg" />
+            <!-- </q-responsive> -->
         </q-item-section>
 
         <q-item-section class="case-card__icon shadow-1">
@@ -73,9 +75,12 @@ export default defineComponent({
 
     &__image
         width: 100%
-        max-height: 28cqw
+        max-height: 46cqw
         overflow: hidden
         border-radius: 8px
+
+        @media (min-width: $breakpoint-sm)
+            max-height: 28cqw
 
         img
             object-fit: cover
