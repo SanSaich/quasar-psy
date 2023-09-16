@@ -1,8 +1,12 @@
 <template>
     <!-- q-item clickable -->
-    <q-item class="case-card column q-pa-none q-mb-md posts-list__post">
+    <q-item class="column q-pa-none q-mb-md case-card">
         <q-item-section class="case-card__image">
-            <img v-if="item.file && item.file.url" :src="item.file.url" />
+            <q-img
+                v-if="item.file && item.file.url"
+                :src="item.file.url"
+                spinner-color="white"
+            />
             <img v-else src="https://cdn.quasar.dev/img/mountains.jpg" />
         </q-item-section>
 
@@ -18,10 +22,12 @@
         </q-item-section>
 
         <q-item-section class="case-card__block-text">
-            <q-item-label overline>{{ now(item.date) }}</q-item-label>
-            <q-item-label>{{ item.title }}</q-item-label>
+            <q-item-label overline>{{
+                item.date ? now(item.date) : "Время публикации"
+            }}</q-item-label>
+            <q-item-label>{{ item.title ? item.title : "..." }}</q-item-label>
             <q-item-label caption>
-                {{ item.text }}
+                {{ item.text ? item.text : "..." }}
             </q-item-label>
             <q-btn
                 @click.stop="$emit('removePost')"
@@ -61,5 +67,32 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style lang="sass">
+.case-card
+    gap: 10px
+
+    &__image
+        width: 100%
+        max-height: 28cqw
+        overflow: hidden
+        border-radius: 8px
+
+        img
+            object-fit: cover
+            width: 100%
+            height: 100%
+
+    &__icon
+        position: absolute
+        top: 8px
+        right: 8px
+        // padding: 6px
+        background: white
+        border-radius: 50%
+
+    &__block-text
+        flex: none
+
+    .q-item__section
+        margin-left: 0
 </style>

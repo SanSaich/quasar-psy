@@ -38,18 +38,18 @@
                 </q-item>
                 <!-- <q-separator /> -->
                 <q-item
-                    :to="{ name: 'About' }"
+                    :to="{ name: 'Editor' }"
                     exact
                     clickable
                     v-ripple
                     class="q-pa-md"
                 >
                     <q-item-section avatar>
-                        <q-icon name="help" size="md" />
+                        <q-icon name="create" size="md" />
                     </q-item-section>
 
                     <q-item-section class="text-h6 text-weight-bold">
-                        О проекте
+                        Редактор постов
                     </q-item-section>
                 </q-item>
                 <!-- <q-separator /> -->
@@ -217,31 +217,4 @@ export default {
 </script>
 
 <style lang="sass">
-.case-card
-    gap: 10px
-
-    &__image
-        width: 100%
-        max-height: 28cqw
-        overflow: hidden
-        border-radius: 8px
-
-        img
-            object-fit: cover
-            width: 100%
-            height: 100%
-
-    &__icon
-        position: absolute
-        top: 8px
-        right: 8px
-        // padding: 6px
-        background: white
-        border-radius: 50%
-
-    &__block-text
-        flex: none
-
-    .q-item__section
-        margin-left: 0
 </style>

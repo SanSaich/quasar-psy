@@ -14,9 +14,9 @@ const routes = [
                 component: () => import('pages/PageSearch.vue'),
             },
             {
-                path: '/about',
-                name: 'About',
-                component: () => import('pages/PageAbout.vue'),
+                path: '/editor',
+                name: 'Editor',
+                component: () => import('pages/PageEditor.vue'),
             },
         ],
     },
