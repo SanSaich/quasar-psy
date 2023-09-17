@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive, onMounted, watch } from "vue";
+import { defineComponent, ref, onMounted, watch } from "vue";
 import { usePostsStore } from "src/stores/posts-store";
 import { useFilesStore } from "src/stores/files-store";
 

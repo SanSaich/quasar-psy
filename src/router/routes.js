@@ -18,6 +18,11 @@ const routes = [
                 name: 'Editor',
                 component: () => import('pages/PageEditor.vue'),
             },
+            {
+                path: '/cases/:id',
+                name: 'Case',
+                component: () => import('pages/cases/PageCase.vue'),
+            },
         ],
     },
 

@@ -5,6 +5,7 @@ import {
     query,
     onSnapshot,
     getDocs,
+    getDoc,
     addDoc,
     doc,
     deleteDoc,
@@ -59,6 +60,16 @@ export const usePostsStore = defineStore('posts', {
         //         console.error('Error getting collection: ', e);
         //     }
         // },
+
+        async getPostId(id) {
+            try {
+                const postsCol = doc(db, 'posts', id);
+                const post = await getDoc(postsCol);
+                return post.data();
+            } catch (e) {
+                console.error('Error getting post: ', e);
+            }
+        },
 
         getPostsChanges() {
             const q = query(collection(db, 'posts'), orderBy('date'));

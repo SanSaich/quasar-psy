@@ -1,6 +1,10 @@
 <template>
     <!-- q-item clickable -->
-    <q-item class="column q-pa-none q-mb-md case-card">
+    <q-item
+        clickable
+        :to="{ name: 'Case', params: { id: item.id } }"
+        class="column q-pa-none q-mb-md case-card"
+    >
         <q-item-section class="case-card__image">
             <!-- <q-responsive :ratio="16 / 9"> -->
             <q-img
