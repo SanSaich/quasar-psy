@@ -20,14 +20,14 @@
             <q-btn
                 :color="item.like ? 'primary' : 'primary'"
                 :icon="item.like ? 'bookmark' : 'bookmark_border'"
-                @click.stop="$emit('toggleLike')"
+                @click.stop.prevent="$emit('toggleLike')"
                 size="md"
                 round
                 flat
             />
         </q-item-section>
 
-        <q-item-section class="case-card__block-text">
+        <q-item-section class="case-card__block-text q-ma-md">
             <q-item-label overline>{{
                 item.date ? now(item.date) : "Время публикации"
             }}</q-item-label>
@@ -36,7 +36,7 @@
                 {{ item.text ? item.text : "..." }}
             </q-item-label>
             <q-btn
-                @click.stop="$emit('removePost')"
+                @click.stop.prevent="$emit('removePost')"
                 color="grey"
                 icon="fas fa-trash"
                 size="xs"
@@ -75,8 +75,6 @@ export default defineComponent({
 
 <style lang="sass">
 .case-card
-    gap: 10px
-
     &__image
         width: 100%
         max-height: 46cqw
@@ -103,5 +101,5 @@ export default defineComponent({
         flex: none
 
     .q-item__section
-        margin-left: 0
+        // margin-left: 0
 </style>

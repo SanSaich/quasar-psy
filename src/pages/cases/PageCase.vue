@@ -18,7 +18,7 @@
 <script>
 import { defineComponent, onMounted, ref, watch } from "vue";
 import { usePostsStore } from "src/stores/posts-store";
-import { useRoute, onBeforeRouteUpdate } from "vue-router";
+import { useRoute } from "vue-router";
 
 export default defineComponent({
     name: "case-id",
@@ -29,21 +29,22 @@ export default defineComponent({
 
         const getPost = async (id) => {
             if (postsStore.postsList.length) {
-                console.log("получаю пост из коллекции");
+                // console.log("получаю пост из коллекции");
                 Post.value = postsStore.postsList.find((item) => {
                     return item.id === id;
                 });
             } else {
-                console.log("запрашиваю пост");
+                // console.log("запрашиваю пост");
                 Post.value = await postsStore.getPostId(id);
             }
-            console.log(Post.value);
         };
 
         watch(
             () => route.params.id,
             async (newId) => {
-                getPost(newId);
+                if (newId) {
+                    getPost(newId);
+                }
             }
         );
 
