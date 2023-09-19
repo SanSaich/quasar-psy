@@ -1,22 +1,22 @@
 <template>
     <h5>{{ $route.params.id }}</h5>
 
-    <template v-if="Post">
+    <template v-if="post">
         <q-img
             :src="
-                Post.file && Post.file.url
-                    ? Post.file.url
+                post.file && post.file.url
+                    ? post.file.url
                     : 'https://cdn.quasar.dev/img/mountains.jpg'
             "
             spinner-color="primary"
         />
-        <p>{{ Post.title }}</p>
-        <p>{{ Post.text }}</p>
+        <p>{{ post.title }}</p>
+        <p>{{ post.text }}</p>
     </template>
 </template>
 
 <script>
-import { defineComponent, onMounted, ref, watch } from "vue";
+import { defineComponent, onMounted, onServerPrefetch, ref, watch } from "vue";
 import { usePostsStore } from "src/stores/posts-store";
 import { useRoute } from "vue-router";
 
@@ -25,17 +25,17 @@ export default defineComponent({
     setup() {
         const postsStore = usePostsStore();
         const route = useRoute();
-        const Post = ref(null);
+        const post = ref(null);
 
         const getPost = async (id) => {
             if (postsStore.postsList.length) {
                 // console.log("получаю пост из коллекции");
-                Post.value = postsStore.postsList.find((item) => {
+                post.value = postsStore.postsList.find((item) => {
                     return item.id === id;
                 });
             } else {
                 // console.log("запрашиваю пост");
-                Post.value = await postsStore.getPostId(id);
+                post.value = await postsStore.getPostId(id);
             }
         };
 
@@ -52,8 +52,12 @@ export default defineComponent({
             getPost(route.params.id);
         });
 
+        onServerPrefetch(async () => {
+            post.value = await postsStore.getPostId(id);
+        });
+
         return {
-            Post,
+            post,
         };
     },
 });
