@@ -1,27 +1,32 @@
 <template>
-    <h5>{{ $route.params.id }}</h5>
+    <q-page class="relative-position">
+        <q-scroll-area class="q-px-md absolute full-width full-height">
+            <h5 class="q-my-md text-weight-medium">
+                {{ post.title }}
+            </h5>
+            <p>{{ post.text }}</p>
 
-    <template v-if="Post">
-        <q-img
-            :src="
-                Post.file && Post.file.url
-                    ? Post.file.url
-                    : 'https://cdn.quasar.dev/img/mountains.jpg'
-            "
-            spinner-color="primary"
-        />
-        <p>{{ Post.title }}</p>
-        <p>{{ Post.text }}</p>
-    </template>
+            <template v-if="post">
+                <q-img
+                    :src="
+                        post.file && post.file.url
+                            ? post.file.url
+                            : 'https://cdn.quasar.dev/img/mountains.jpg'
+                    "
+                    spinner-color="primary"
+                />
+            </template>
+        </q-scroll-area>
+    </q-page>
 </template>
 
 <script>
-import { defineComponent, onMounted, ref, watch } from "vue";
+import { defineComponent, onMounted, onServerPrefetch, ref, watch } from "vue";
 import { usePostsStore } from "src/stores/posts-store";
 import { useRoute } from "vue-router";
 
 export default defineComponent({
-    name: "PageCase",
+    name: "case-id",
     setup() {
         const postsStore = usePostsStore();
         const route = useRoute();
@@ -42,9 +47,6 @@ export default defineComponent({
         watch(
             () => route.params.id,
             async (newId) => {
-                if (oldId !== newId) {
-                    post.value = null;
-                }
                 if (newId) {
                     getPost(newId);
                 }
@@ -53,6 +55,10 @@ export default defineComponent({
 
         onMounted(() => {
             getPost(route.params.id);
+        });
+
+        onServerPrefetch(async () => {
+            post.value = await postsStore.getPostId(id);
         });
 
         return {
