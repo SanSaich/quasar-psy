@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, watch } from "vue";
+import { defineComponent, ref, onMounted, onServerPrefetch, watch } from "vue";
 import { usePostsStore } from "src/stores/posts-store";
 import { useFilesStore } from "src/stores/files-store";
 
@@ -59,8 +59,12 @@ export default defineComponent({
         );
 
         onMounted(async () => {
-            // await store.getPostsCollection();
+            // postsList.value = await store.getPostsCollection();
             store.getPostsChanges();
+        });
+
+        onServerPrefetch(async () => {
+            postsList.value = await store.getPostsCollection();
         });
 
         return {
