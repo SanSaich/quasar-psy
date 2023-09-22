@@ -25,7 +25,7 @@ import { usePostsStore } from "src/stores/posts-store";
 import { useRoute } from "vue-router";
 
 export default defineComponent({
-    name: "case-id",
+    name: "PageCase",
     setup() {
         const postsStore = usePostsStore();
         const route = useRoute();

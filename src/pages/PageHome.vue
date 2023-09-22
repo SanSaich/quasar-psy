@@ -59,7 +59,6 @@ export default defineComponent({
         );
 
         onMounted(async () => {
-            // await store.getPostsCollection();
             store.getPostsChanges();
         });
 
