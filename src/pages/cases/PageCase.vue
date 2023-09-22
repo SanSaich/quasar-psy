@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, ref, watch } from "vue";
+import { defineComponent, onMounted, onServerPrefetch, ref, watch } from "vue";
 import { usePostsStore } from "src/stores/posts-store";
 import { useRoute } from "vue-router";
 
@@ -58,6 +58,10 @@ export default defineComponent({
 
         onMounted(() => {
             getPost(route.params.id);
+        });
+
+        onServerPrefetch(async () => {
+            post.value = await postsStore.getPostId(id);
         });
 
         return {
