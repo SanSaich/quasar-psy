@@ -1,17 +1,17 @@
 <template>
     <h5>{{ $route.params.id }}</h5>
 
-    <template v-if="Post">
+    <template v-if="post">
         <q-img
             :src="
-                Post.file && Post.file.url
-                    ? Post.file.url
+                post.file && post.file.url
+                    ? post.file.url
                     : 'https://cdn.quasar.dev/img/mountains.jpg'
             "
             spinner-color="primary"
         />
-        <p>{{ Post.title }}</p>
-        <p>{{ Post.text }}</p>
+        <p>{{ post.title }}</p>
+        <p>{{ post.text }}</p>
     </template>
 </template>
 
@@ -21,27 +21,30 @@ import { usePostsStore } from "src/stores/posts-store";
 import { useRoute } from "vue-router";
 
 export default defineComponent({
-    name: "case-id",
+    name: "PageCase",
     setup() {
         const postsStore = usePostsStore();
         const route = useRoute();
-        const Post = ref(null);
+        const post = ref(null);
 
         const getPost = async (id) => {
             if (postsStore.postsList.length) {
                 // console.log("получаю пост из коллекции");
-                Post.value = postsStore.postsList.find((item) => {
+                post.value = postsStore.postsList.find((item) => {
                     return item.id === id;
                 });
             } else {
                 // console.log("запрашиваю пост");
-                Post.value = await postsStore.getPostId(id);
+                post.value = await postsStore.getPostId(id);
             }
         };
 
         watch(
             () => route.params.id,
             async (newId) => {
+                if (oldId !== newId) {
+                    post.value = null;
+                }
                 if (newId) {
                     getPost(newId);
                 }
@@ -53,7 +56,7 @@ export default defineComponent({
         });
 
         return {
-            Post,
+            post,
         };
     },
 });
