@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { defineComponent, computed } from "vue";
+import { defineComponent } from "vue";
 import { formatDistance } from "date-fns";
 
 export default defineComponent({
