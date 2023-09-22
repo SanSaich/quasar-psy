@@ -4,10 +4,10 @@
             {{ $route.name }}
         </h5>
         <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto
-            nostrum nemo minima ipsam quidem soluta deleniti. Odit numquam vero
-            animi fugiat expedita deleniti tempore, nesciunt dolorum itaque esse
-            modi laudantium?
+            Win cicd ipsum dolor sit, amet consectetur adipisicing elit.
+            Architecto nostrum nemo minima ipsam quidem soluta deleniti. Odit
+            numquam vero animi fugiat expedita deleniti tempore, nesciunt
+            dolorum itaque esse modi laudantium?
         </p>
         <p>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto
