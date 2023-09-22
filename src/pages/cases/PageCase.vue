@@ -1,12 +1,11 @@
 <template>
     <q-page class="relative-position">
         <q-scroll-area class="q-px-md absolute full-width full-height">
-            <h5 class="q-my-md text-weight-medium">
-                {{ post.title }}
-            </h5>
-            <p>{{ post.text }}</p>
-
             <template v-if="post">
+                <h5 class="q-my-md text-weight-medium">
+                    {{ post.title }}
+                </h5>
+                <p>{{ post.text }}</p>
                 <q-img
                     :src="
                         post.file && post.file.url
@@ -46,7 +45,7 @@ export default defineComponent({
 
         watch(
             () => route.params.id,
-            async (newId) => {
+            async (newId, oldId) => {
                 if (oldId !== newId) {
                     post.value = null;
                 }
