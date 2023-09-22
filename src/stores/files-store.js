@@ -7,7 +7,7 @@ import {
     deleteObject,
 } from 'firebase/storage';
 
-export const useFilesStore = defineStore('counter', {
+export const useFilesStore = defineStore('files', {
     state: () => ({}),
     getters: {},
     actions: {

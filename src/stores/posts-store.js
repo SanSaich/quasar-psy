@@ -50,17 +50,6 @@ export const usePostsStore = defineStore('posts', {
             }
         },
 
-        // получить коллекцию без подписки на обновление данных
-        // async getPostsCollection() {
-        //     try {
-        //         const postsCol = collection(db, 'posts');
-        //         const postSnapshot = await getDocs(postsCol);
-        //         this.postsList = postSnapshot.docs.map((doc) => doc.data());
-        //     } catch (e) {
-        //         console.error('Error getting collection: ', e);
-        //     }
-        // },
-
         async getPostId(id) {
             try {
                 const postsCol = doc(db, 'posts', id);
@@ -68,6 +57,24 @@ export const usePostsStore = defineStore('posts', {
                 return post.data();
             } catch (e) {
                 console.error('Error getting post: ', e);
+            }
+        },
+
+        // получить коллекцию без подписки на обновление данных (для ssr)
+        async getPostsCollection() {
+            try {
+                const q = query(
+                    collection(db, 'posts'),
+                    orderBy('date', 'desc')
+                );
+                const postSnapshot = await getDocs(q);
+                const collectionPosts = postSnapshot.docs.map((doc) =>
+                    Object.assign(doc.data(), { id: doc.id })
+                );
+                // this.postsList = collectionPosts;
+                return collectionPosts;
+            } catch (e) {
+                console.error('Error getting collection: ', e);
             }
         },
 
