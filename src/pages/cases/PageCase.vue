@@ -60,7 +60,7 @@ export default defineComponent({
         });
 
         onServerPrefetch(async () => {
-            post.value = await postsStore.getPostId(id);
+            post.value = await postsStore.getPostId(route.params.id);
         });
 
         return {
