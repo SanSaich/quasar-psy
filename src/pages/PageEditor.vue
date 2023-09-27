@@ -59,7 +59,7 @@
                     </q-file>
                 </div>
 
-                <template v-if="newPost.title || newPost.text || newFile">
+                <!-- <template v-if="newPost.title || newPost.text || newFile">
                     <case-big :item="newPost"></case-big>
                     <q-btn
                         rounded
@@ -72,7 +72,123 @@
                         :disabled="!newPost.title || !newPost.text"
                         @click="createPost()"
                     />
-                </template>
+                </template> -->
+
+                <div class="q-gutter-sm q-my-md">
+                    <q-editor
+                        v-model="newContent"
+                        min-height="5rem"
+                        :dense="$q.screen.lt.md"
+                        :toolbar="[
+                            [
+                                {
+                                    label: $q.lang.editor.align,
+                                    icon: $q.iconSet.editor.align,
+                                    fixedLabel: true,
+                                    list: 'only-icons',
+                                    options: [
+                                        'left',
+                                        'center',
+                                        'right',
+                                        'justify',
+                                    ],
+                                },
+                            ],
+                            [
+                                'bold',
+                                'italic',
+                                'strike',
+                                'underline',
+                                'subscript',
+                                'superscript',
+                            ],
+                            ['token', 'hr', 'link', 'custom_btn'],
+                            [
+                                {
+                                    label: $q.lang.editor.formatting,
+                                    icon: $q.iconSet.editor.formatting,
+                                    list: 'no-icons',
+                                    options: [
+                                        'p',
+                                        'h1',
+                                        'h2',
+                                        'h3',
+                                        'h4',
+                                        'h5',
+                                        'h6',
+                                        'code',
+                                    ],
+                                },
+                                {
+                                    label: $q.lang.editor.fontSize,
+                                    icon: $q.iconSet.editor.fontSize,
+                                    fixedLabel: true,
+                                    fixedIcon: true,
+                                    list: 'no-icons',
+                                    options: [
+                                        'size-1',
+                                        'size-2',
+                                        'size-3',
+                                        'size-4',
+                                        'size-5',
+                                        'size-6',
+                                        'size-7',
+                                    ],
+                                },
+                                {
+                                    label: $q.lang.editor.defaultFont,
+                                    icon: $q.iconSet.editor.font,
+                                    fixedIcon: true,
+                                    list: 'no-icons',
+                                    options: [
+                                        'default_font',
+                                        'arial',
+                                        'arial_black',
+                                        'comic_sans',
+                                        'courier_new',
+                                        'impact',
+                                        'lucida_grande',
+                                        'times_new_roman',
+                                        'verdana',
+                                    ],
+                                },
+                                'removeFormat',
+                            ],
+                            [
+                                'quote',
+                                'unordered',
+                                'ordered',
+                                'outdent',
+                                'indent',
+                            ],
+
+                            ['undo', 'redo'],
+                            ['viewsource'],
+                        ]"
+                        :fonts="{
+                            arial: 'Arial',
+                            arial_black: 'Arial Black',
+                            comic_sans: 'Comic Sans MS',
+                            courier_new: 'Courier New',
+                            impact: 'Impact',
+                            lucida_grande: 'Lucida Grande',
+                            times_new_roman: 'Times New Roman',
+                            verdana: 'Verdana',
+                        }"
+                    />
+
+                    <q-card flat bordered>
+                        <q-card-section>
+                            <pre style="white-space: pre-line">
+                                {{ newContent }}
+                            </pre>
+                        </q-card-section>
+                    </q-card>
+
+                    <!-- <q-card flat bordered class="q-pa-sm" min-height="1rem">
+                        <div v-html="newContent" />
+                    </q-card> -->
+                </div>
             </template>
             <div v-else class="flex justify-center">
                 <q-spinner-puff color="primary" size="50%" />
@@ -85,12 +201,12 @@
 import { defineComponent, ref, reactive } from "vue";
 import { usePostsStore } from "src/stores/posts-store";
 import { useFilesStore } from "src/stores/files-store";
-import CaseBig from "../components/cases/CaseBig.vue";
+// import CaseBig from "../components/cases/CaseBig.vue";
 
 export default defineComponent({
     name: "PageAbout",
     components: {
-        CaseBig,
+        // CaseBig,
     },
     setup() {
         const isLoading = ref(false);
@@ -104,6 +220,7 @@ export default defineComponent({
             file: { name: "", url: "" },
             like: false,
         });
+        let newContent = ref("");
 
         const handleUpload = () => {
             newPost.file.url = newFile.value
@@ -136,6 +253,7 @@ export default defineComponent({
             isLoading,
             newPost,
             newFile,
+            newContent,
             createPost,
             handleUpload,
         };
