@@ -5,7 +5,11 @@
                 {{ $route.name }}
             </h5>
 
-            <template v-if="!isLoading">
+            <div v-if="isLoading" class="flex justify-center">
+                <q-spinner-puff color="primary" size="50%" />
+            </div>
+
+            <template v-else>
                 <div
                     class="q-pa-md q-my-md borders rounded-borders form-container"
                 >
@@ -59,7 +63,7 @@
                     </q-file>
                 </div>
 
-                <!-- <template v-if="newPost.title || newPost.text || newFile">
+                <template v-if="newPost.title || newPost.text || newFile">
                     <case-big :item="newPost"></case-big>
                     <q-btn
                         rounded
@@ -72,9 +76,9 @@
                         :disabled="!newPost.title || !newPost.text"
                         @click="createPost()"
                     />
-                </template> -->
+                </template>
 
-                <div class="q-gutter-sm q-my-md">
+                <!-- <div class="q-gutter-sm q-my-md">
                     <q-editor
                         v-model="newContent"
                         min-height="5rem"
@@ -185,14 +189,11 @@
                         </q-card-section>
                     </q-card>
 
-                    <!-- <q-card flat bordered class="q-pa-sm" min-height="1rem">
+                    <q-card flat bordered class="q-pa-sm" min-height="1rem">
                         <div v-html="newContent" />
-                    </q-card> -->
-                </div>
+                    </q-card>
+                </div> -->
             </template>
-            <div v-else class="flex justify-center">
-                <q-spinner-puff color="primary" size="50%" />
-            </div>
         </q-scroll-area>
     </q-page>
 </template>
@@ -201,12 +202,12 @@
 import { defineComponent, ref, reactive } from "vue";
 import { usePostsStore } from "src/stores/posts-store";
 import { useFilesStore } from "src/stores/files-store";
-// import CaseBig from "../components/cases/CaseBig.vue";
+import CaseBig from "../components/cases/CaseBig.vue";
 
 export default defineComponent({
     name: "PageAbout",
     components: {
-        // CaseBig,
+        CaseBig,
     },
     setup() {
         const isLoading = ref(false);

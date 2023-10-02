@@ -12,7 +12,7 @@
                 :src="item.file.url"
                 spinner-color="primary"
             />
-            <img v-else src="https://cdn.quasar.dev/img/mountains.jpg" />
+            <img v-else src="~assets/image.gif" />
             <!-- </q-responsive> -->
         </q-item-section>
 
@@ -84,10 +84,12 @@ export default defineComponent({
         @media (min-width: $breakpoint-sm)
             max-height: 28cqw
 
-        img
-            object-fit: cover
-            width: 100%
+        > img
+            object-fit: contain
+            max-width: 50%
             height: 100%
+            margin-left: auto
+            margin-right: auto
 
     &__icon
         position: absolute

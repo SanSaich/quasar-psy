@@ -16,8 +16,6 @@
                 </transition>
                 <q-icon size="md" class="q-pa-md"></q-icon>
             </q-toolbar-title>
-
-            <q-btn dense flat round icon="menu" @click="$emit('toggleRight')" />
         </q-toolbar>
     </q-header>
 </template>
@@ -29,12 +27,7 @@ export default {
     props: {
         showIcon: Boolean,
     },
-    setup() {
-        const zaz = ref(true);
-        return {
-            zaz,
-        };
-    },
+    setup() {},
 };
 </script>
 

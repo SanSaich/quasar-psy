@@ -2,7 +2,6 @@
     <q-layout view="lHr lpR fFf">
         <header-cmp
             @toggleLeft="toggleLeftDrawer"
-            @toggleRight="toggleRightDrawer"
             :showIcon="!leftDrawerOpen"
         />
 
@@ -36,7 +35,7 @@
                         Домой
                     </q-item-section>
                 </q-item>
-                <!-- <q-separator /> -->
+
                 <q-item
                     :to="{ name: 'Editor' }"
                     exact
@@ -52,7 +51,7 @@
                         Редактор постов
                     </q-item-section>
                 </q-item>
-                <!-- <q-separator /> -->
+
                 <q-item
                     :to="{ name: 'Search' }"
                     exact
@@ -61,11 +60,11 @@
                     class="q-pa-md"
                 >
                     <q-item-section avatar>
-                        <q-icon name="search" size="md" />
+                        <q-icon name="book" size="md" />
                     </q-item-section>
 
                     <q-item-section class="text-h6 text-weight-bold">
-                        Поиск
+                        About
                     </q-item-section>
                 </q-item>
             </q-list>
@@ -77,59 +76,6 @@
                 label="Install App"
                 @click="install"
             />
-        </q-drawer>
-
-        <q-drawer
-            show-if-above
-            v-model="rightDrawerOpen"
-            side="right"
-            behavior="mobile"
-            bordered
-            :width="300"
-            class="q-pa-md"
-        >
-            <q-input
-                placeholder="Найти статью"
-                color="primary"
-                class="q-mb-md"
-                rounded
-                outlined
-                dense
-            >
-                <template v-slot:prepend>
-                    <q-icon name="search" />
-                </template>
-            </q-input>
-
-            <q-list>
-                <q-item
-                    v-for="(item, key) of searchResult"
-                    :key="key"
-                    class="case-card column q-pa-none q-mb-md"
-                >
-                    <q-item-section class="case-card__image">
-                        <img src="https://cdn.quasar.dev/img/mountains.jpg" />
-                    </q-item-section>
-
-                    <q-item-section class="case-card__icon">
-                        <q-icon
-                            color="primary"
-                            size="md"
-                            name="bookmark_border"
-                        />
-                    </q-item-section>
-
-                    <q-item-section class="case-card__block-text">
-                        <q-item-label overline>{{ item }}</q-item-label>
-                        <q-item-label>Single line item</q-item-label>
-                        <q-item-label caption
-                            >Secondary line text. Lorem ipsum dolor sit amet,
-                            consectetur adipiscit elit.
-                        </q-item-label>
-                    </q-item-section>
-                    <q-separator />
-                </q-item>
-            </q-list>
         </q-drawer>
 
         <q-page-container>
@@ -146,7 +92,7 @@
 
 <script>
 import { onMounted, ref, reactive } from "vue";
-import { useQuasar } from "quasar";
+// import { useQuasar } from "quasar";
 import HeaderCmp from "../components/base/HeaderCmp.vue";
 import FooterCmp from "../components/base/FooterCmp.vue";
 
@@ -157,15 +103,9 @@ export default {
     },
     setup() {
         const leftDrawerOpen = ref(false);
-        const rightDrawerOpen = ref(false);
         function toggleLeftDrawer() {
             leftDrawerOpen.value = !leftDrawerOpen.value;
         }
-        function toggleRightDrawer() {
-            rightDrawerOpen.value = !rightDrawerOpen.value;
-        }
-
-        const searchResult = ref(["one", "two", "three"]);
 
         // const $q = useQuasar();
         // const platform = $q.platform;
@@ -173,7 +113,7 @@ export default {
         let deferredPrompt = ref();
         // метод для установки pwa
         const install = async () => {
-            console.log("Installing");
+            // console.log("Installing");
             // Show the install prompt
             deferredPrompt.value.prompt();
             // Wait for the user to respond to the prompt
@@ -183,6 +123,7 @@ export default {
             // We've used the prompt, and can't use it again, throw it away
             deferredPrompt.value = null;
         };
+
         onMounted(() => {
             window.addEventListener("beforeinstallprompt", (e) => {
                 // Prevent the mini-infobar from appearing on mobile
@@ -205,10 +146,6 @@ export default {
             leftDrawerOpen,
             toggleLeftDrawer,
 
-            rightDrawerOpen,
-            toggleRightDrawer,
-
-            searchResult,
             deferredPrompt,
             install,
         };

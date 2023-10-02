@@ -10,7 +10,7 @@
                     :src="
                         post.file && post.file.url
                             ? post.file.url
-                            : 'https://cdn.quasar.dev/img/mountains.jpg'
+                            : '../src/assets/image.gif'
                     "
                     spinner-color="primary"
                 />
