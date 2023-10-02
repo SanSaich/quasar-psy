@@ -52,6 +52,7 @@ export default {};
 .footer-cmp
     display: none
 
+// отображать только в PWA
 @media all and (display-mode: standalone)
     .footer-cmp
         display: block
