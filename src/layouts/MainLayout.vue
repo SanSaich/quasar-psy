@@ -76,6 +76,14 @@
                 label="Install App"
                 @click="install"
             />
+
+            <div class="absolute-bottom-left q-ma-sm">
+                <q-icon name="info" size="md" @click="showInfo = !showInfo" />
+                <div v-if="showInfo">
+                    <p>app mode: {{ mode }}</p>
+                    <p>platform: {{ platform }}</p>
+                </div>
+            </div>
         </q-drawer>
 
         <q-page-container>
@@ -92,7 +100,8 @@
 
 <script>
 import { onMounted, ref, reactive } from "vue";
-// import { useQuasar } from "quasar";
+import { startAppMode } from "src/boot/startAppMode";
+import { useQuasar } from "quasar";
 import HeaderCmp from "../components/base/HeaderCmp.vue";
 import FooterCmp from "../components/base/FooterCmp.vue";
 
@@ -107,8 +116,10 @@ export default {
             leftDrawerOpen.value = !leftDrawerOpen.value;
         }
 
-        // const $q = useQuasar();
-        // const platform = $q.platform;
+        const mode = startAppMode();
+        const $q = useQuasar();
+        const platform = $q.platform;
+        let showInfo = ref(false);
 
         let deferredPrompt = ref();
         // метод для установки pwa
@@ -148,6 +159,10 @@ export default {
 
             deferredPrompt,
             install,
+
+            mode,
+            platform,
+            showInfo,
         };
     },
 };
