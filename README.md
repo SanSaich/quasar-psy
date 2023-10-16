@@ -1,5 +1,7 @@
 # [Psy Quasar App](https://quasar-psy.web.app/)
 
+[https://quasar-psy.web.app](https://quasar-psy.web.app/)
+
 ### Сделано при использовании:
 
 -   Quasar v2 - Vue 3 framework,
